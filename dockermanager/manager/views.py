@@ -9,6 +9,7 @@ import docker
 
 class AppList(generics.GenericAPIView):
     permission_classes = [permissions.AllowAny]
+    queryset = ''
 
     @staticmethod
     def get(request):
@@ -24,6 +25,7 @@ class AppList(generics.GenericAPIView):
 
 class CreateApp(generics.GenericAPIView):
     permission_classes = [permissions.AllowAny]
+    serializer_class = AppFullSerializer
 
     @staticmethod
     def post(request):
@@ -65,7 +67,7 @@ class DeleteApp(generics.GenericAPIView):
     permission_classes = [permissions.AllowAny]
 
     @staticmethod
-    def post(request, app_id):
+    def get(request, app_id):
         try:
             app = App.objects.filter(id=app_id).first()
             if app is None:
@@ -79,6 +81,7 @@ class DeleteApp(generics.GenericAPIView):
 
 class EditApp(generics.GenericAPIView):
     permission_classes = [permissions.AllowAny]
+    serializer_class = AppFullSerializer
 
     def post(self, request, app_id):
         try:
@@ -106,6 +109,7 @@ class EditApp(generics.GenericAPIView):
 
 class ContainerList(generics.GenericAPIView):
     permission_classes = [permissions.AllowAny]
+    queryset = ''
 
     @staticmethod
     def get(request, app_id):
@@ -126,7 +130,7 @@ class CreateContainer(generics.GenericAPIView):
     permission_classes = [permissions.AllowAny]
 
     @staticmethod
-    def post(request, app_id):
+    def get(request, app_id):
         try:
             original_app = App.objects.filter(id=app_id).first()
             if original_app is None:

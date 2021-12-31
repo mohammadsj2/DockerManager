@@ -34,7 +34,7 @@ class TestSet(TestCase):
 
     def test_del_app(self):
         c = APIClient()
-        response = c.post('/apps/1/delete/')
+        c.get('/apps/1/delete/')
         response = c.get('/apps/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content,
@@ -63,19 +63,19 @@ class TestSet(TestCase):
         app = App.objects.create(name="new", image_url="hub.hamdocker.ir/nginx:1.21", command="sleep 1000")
         AppEnvVar.objects.create(key="key1", val="val1", app=app)
         AppEnvVar.objects.create(key="key2", val="val2", app=app)
-        c.post('/apps/3/containers/create/')
-        c.post('/apps/3/containers/create/')
+        c.get('/apps/3/containers/create/')
+        c.get('/apps/3/containers/create/')
         response = c.get('/apps/3/containers/')
         print(response.content)
-        c.post('/apps/3/delete/')
+        c.get('/apps/3/delete/')
 
     def test_container2(self):
         c = APIClient()
         app = App.objects.create(name="new", image_url="ubuntu", command="echo hello")
         AppEnvVar.objects.create(key="key1", val="val1", app=app)
         AppEnvVar.objects.create(key="key2", val="val2", app=app)
-        c.post('/apps/3/containers/create/')
-        c.post('/apps/3/containers/create/')
+        c.get('/apps/3/containers/create/')
+        c.get('/apps/3/containers/create/')
         response = c.get('/apps/3/containers/')
         print(response.content)
-        c.post('/apps/3/delete/')
+        c.get('/apps/3/delete/')
